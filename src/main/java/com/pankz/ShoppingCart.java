@@ -4,24 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
-    private final Inventory inventory;
-    private List<LineItem> itemsInCart=new ArrayList<>();
-    public ShoppingCart(Inventory inventory)
-    {
-        this.inventory=inventory;
-    }
+    private List<Item> itemsInCart=new ArrayList<>();
 
-    public void addItem(LineItem lineItem) {
-        this.itemsInCart.add(lineItem);
+    public void addItem(Item item) {
+        this.itemsInCart.add(item);
 
     }
 
     public int totalNumberOfItems() {
-        int totalItem=0;
-        for(LineItem lineItem: itemsInCart)
-        {
-            totalItem+= lineItem.getQuantity();
-        }
-        return totalItem;
+        return  itemsInCart.size();
     }
 }
