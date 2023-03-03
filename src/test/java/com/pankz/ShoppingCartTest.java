@@ -2,6 +2,8 @@
 package com.pankz;
 
 import java.math.BigDecimal;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +13,6 @@ public class ShoppingCartTest {
     private ShoppingCart cart;
 
 
-
     @Before
     public void setUp() throws Exception {
         Item item1 = (new Item.Builder()).withId("item-1").withItemType(ItemType.BOOK).withName("Effective Java").withPrice(BigDecimal.valueOf(4000L)).build();
@@ -19,7 +20,7 @@ public class ShoppingCartTest {
         inventory = new Inventory();
         inventory.add(item1);
         inventory.add(item2);
-        cart=new ShoppingCart(inventory);
+        cart = new ShoppingCart(inventory);
     }
 
     @Test
@@ -41,9 +42,40 @@ public class ShoppingCartTest {
 
     @Test
     public void should_add_multiple_quantity_of_the_same_item_to_the_cart() {
-       
+
         cart.addItem(new LineItem("item-1", 2));
         int totalItemCount = cart.totalNumberOfItems();
         Assertions.assertThat(totalItemCount).isEqualTo(2);
     }
+
+    @Test
+    public void should_remove_an_item_from_cart() {
+        cart.addItem(new LineItem("item-1"));
+        cart.addItem(new LineItem("item-2"));
+        cart.remove(new LineItem("item-1"));
+        int totalItemCount = cart.totalNumberOfItems();
+        Assertions.assertThat(totalItemCount).isEqualTo(1);
+
+    }
+
+    @Test
+    public void should_remove_specific_quantity_of_an_item_from_cart() {
+        cart.addItem(new LineItem("item-1", 4));
+        cart.addItem(new LineItem("item-2", 3));
+        cart.remove(new LineItem("item-1", 2));
+        cart.remove(new LineItem("item-2", 1));
+        int totalItemCount = cart.totalNumberOfItems();
+        Assertions.assertThat(totalItemCount).isEqualTo(4);
+
+    }
+    @Test
+    public  void should_vie_listing_of_items_in_the_cart()
+    {
+        cart.addItem(new LineItem("item-1",4));
+        cart.addItem(new LineItem("item-2",3));
+       List<LineItem> lineItems= cart.listItemInCart();
+       Assertions.assertThat(lineItems.get(0).totalPrice()).isEqualTo(BigDecimal.valueOf(12000));
+        Assertions.assertThat(lineItems.get(0).totalPrice()).isEqualTo(BigDecimal.valueOf(750));
+    }
+
 }
