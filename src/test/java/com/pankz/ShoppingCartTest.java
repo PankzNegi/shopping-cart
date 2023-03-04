@@ -74,8 +74,20 @@ public class ShoppingCartTest {
         cart.addItem(new LineItem("item-1",4));
         cart.addItem(new LineItem("item-2",3));
        List<LineItem> lineItems= cart.listItemInCart();
-       Assertions.assertThat(lineItems.get(0).totalPrice()).isEqualTo(BigDecimal.valueOf(12000));
-        Assertions.assertThat(lineItems.get(0).totalPrice()).isEqualTo(BigDecimal.valueOf(750));
+       Assertions.assertThat(lineItems.get(0).totalPrice()).isEqualTo(BigDecimal.valueOf(16000));
+        Assertions.assertThat(lineItems.get(1).totalPrice()).isEqualTo(BigDecimal.valueOf(750));
+    }
+    @Test
+    public void should_increase_quantity_of_the_item_when_same_is_added_multiple_time()
+    {
+        cart.addItem(new LineItem("item-1",4));
+        cart.addItem(new LineItem("item-1",3));
+        int totalItemCount=cart.totalNumberOfItems();
+        Assertions.assertThat(totalItemCount).isEqualTo(7);
+        cart.remove(new LineItem("item-1",6));
+        totalItemCount=cart.totalNumberOfItems();
+        Assertions.assertThat(totalItemCount).isEqualTo(1);
+
     }
 
 }

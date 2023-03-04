@@ -56,4 +56,8 @@ public class LineItem {
     public BigDecimal totalPrice() {
         return price.multiply(BigDecimal.valueOf(quantity));
     }
+
+    public void increaseQuantityBy(int quantityToAdd) {
+        this.quantity+=quantityToAdd;
+    }
 }
